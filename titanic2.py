@@ -15,34 +15,17 @@ Pclass = Pclass.drop('1st',axis=1)
 Sex = pd.get_dummies(data['Sex'])
 Sex = Sex.drop('male',axis=1)
 
-# Ageをカテゴリーデータに変換
-def adult_kids(age):
-    if age > 15:
-        if age > 60:
-            return  'older'
-        else :
-            return   'adult'
-    else :
-        if age < 16:
-            return   'kids'
-        else :
-            return np.nan
-
-data['adult_kids'] = data['Age'].apply(adult_kids)
-Age_cat = pd.get_dummies(data['adult_kids']).drop('adult',axis=1)
-
-Data_tmp = data[['Survived','SibSp','Parch','Fare']]
+Data_tmp = data[['Survived','SibSp','Parch','Fare', 'Age']]
 
 Merge_data = pd.merge(Data_tmp,Pclass,right_index=True,left_index=True)
 Merge_data = pd.merge(Merge_data,Sex,right_index=True,left_index=True)
-Merge_data = pd.merge(Merge_data,Age_cat,right_index=True,left_index=True)
 y = Merge_data['Survived'].values.reshape(-1, 1)
 x = Merge_data.drop('Survived',axis=1).values
 
 # 変数の定義
-feature = tf.placeholder(tf.float32, [None, 8])
+feature = tf.placeholder(tf.float32, [None, 7])
 label = tf.placeholder(tf.float32, [None, 1])
-w0 = tf.Variable(tf.zeros([8, 1]))
+w0 = tf.Variable(tf.zeros([7, 1]))
 b0 = tf.Variable(tf.zeros([1]))
 
 # モデルの定義

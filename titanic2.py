@@ -8,24 +8,19 @@ row_data = pd.read_csv('train.csv')
 data= row_data[['Survived','Pclass','Sex','Age','SibSp','Parch','Fare']].dropna()
 
 #カテゴリーデータをダミー変数に変換し、使用するものだけにする
-Pclass = pd.get_dummies(data['Pclass'])
-Pclass.columns=['1st','2nd','3rd']
-Pclass = Pclass.drop('1st',axis=1)
-
 Sex = pd.get_dummies(data['Sex'])
 Sex = Sex.drop('male',axis=1)
 
-Data_tmp = data[['Survived','SibSp','Parch','Fare', 'Age']]
+Data_tmp = data[['Survived','SibSp','Parch','Fare', 'Age', 'Pclass']]
 
-Merge_data = pd.merge(Data_tmp,Pclass,right_index=True,left_index=True)
-Merge_data = pd.merge(Merge_data,Sex,right_index=True,left_index=True)
+Merge_data = pd.merge(Data_tmp,Sex,right_index=True,left_index=True)
 y = Merge_data['Survived'].values.reshape(-1, 1)
 x = Merge_data.drop('Survived',axis=1).values
 
 # 変数の定義
-feature = tf.placeholder(tf.float32, [None, 7])
+feature = tf.placeholder(tf.float32, [None, 6])
 label = tf.placeholder(tf.float32, [None, 1])
-w0 = tf.Variable(tf.zeros([7, 1]))
+w0 = tf.Variable(tf.zeros([6, 1]))
 b0 = tf.Variable(tf.zeros([1]))
 
 # モデルの定義

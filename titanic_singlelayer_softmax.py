@@ -36,7 +36,7 @@ sess.run(tf.global_variables_initializer())
 
 for i in range(50000):
     sess.run(optimizer, feed_dict={feature:x, label:y})  # 学習処理
-    if i % 100 == 0:
+    if i % 1000 == 0:
         loss_val = sess.run(loss, feed_dict={feature:x, label:y})
         predict = sess.run(p0 , feed_dict={feature:x , label:y})
         pre_label = np.argmax(predict, axis=1)

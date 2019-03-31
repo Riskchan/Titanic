@@ -18,7 +18,7 @@ y = pd.get_dummies(data['Survived']).as_matrix()
 x = data.drop('Survived',axis=1).values
 
 # 変数の定義
-node_num = 32   # 中間レイヤーのノード数
+node_num = 15   # 中間レイヤーのノード数
 feature = tf.placeholder(tf.float32, [None, cols-1])
 label = tf.placeholder(tf.float32, [None, 2])
 w0 = tf.Variable(tf.truncated_normal([cols-1, node_num]))
@@ -42,7 +42,7 @@ sess.run(tf.global_variables_initializer())
 
 for i in range(50000):
     sess.run(optimizer, feed_dict={feature:x, label:y})  # 学習処理
-    if i % 100 == 0:
+    if i % 1000 == 0:
         loss_val = sess.run(loss, feed_dict={feature:x, label:y})
         predict = sess.run(p0 , feed_dict={feature:x , label:y})
         pre_label = np.argmax(predict, axis=1)

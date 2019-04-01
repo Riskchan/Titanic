@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/anaconda/envs/tensorflow/bin/python",
-    "python.venvPath": "//anaconda/envs/"
+    "python.pythonPath": "/anaconda3/envs/tf140/bin/python",
+    "python.venvPath": "//anaconda3/envs/"
 }
